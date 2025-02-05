@@ -46,6 +46,7 @@
     "@types/node": "^20.17.16",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@types/testing-library__jest-dom": "^5.14.9",
     "autoprefixer": "^10.4.20",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",

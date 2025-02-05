@@ -1,33 +1,37 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface AuthContextType {
   user: { name: string; email: string } | null;
-  loginWithGoogle: () => void;
-  loginWithGithub: () => void;
+  login: ({ name, email }: { name: string; email: string }) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
 
-  const loginWithGoogle = () => {
-    // Simuler une connexion Google
-    setUser({ name: 'John Doe', email: 'john.doe@gmail.com' });
-  };
+  useEffect(() => {
+    // Vérifier si les informations de l'utilisateur sont stockées dans localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
-  const loginWithGithub = () => {
-    // Simuler une connexion GitHub
-    setUser({ name: 'Jane Doe', email: 'jane.doe@gmail.com' });
+  const login = ({ name, email }: { name: string; email: string }) => {
+    const user = { name, email };
+    setUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, loginWithGoogle, loginWithGithub, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

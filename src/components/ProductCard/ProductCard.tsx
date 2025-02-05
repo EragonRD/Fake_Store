@@ -1,7 +1,8 @@
 import { Card, Typography, Button, Modal } from '@mui/joy';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Product } from '../../types/Product';
 import styles from './ProductCard.module.css';
+import { addFavorite, removeFavorite, getFavorites } from '../../services/favorites';
 
 interface ProductCardProps {
   product: Product;
@@ -9,12 +10,29 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [open, setOpen] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Empêcher la propagation du clic à la carte
+    if (isFavorite) {
+      removeFavorite(product.id);
+    } else {
+      addFavorite(product);
+    }
+    setIsFavorite(!isFavorite);
+  };
+
   // Vérification de la valeur de src
   const imageSrc = product.image || '';
+
+  // Vérifier si le produit est dans les favoris
+  useEffect(() => {
+    const favorites = getFavorites();
+    setIsFavorite(favorites.some((fav: Product) => fav.id === product.id));
+  }, [product.id]);
 
   return (
     <>
@@ -35,6 +53,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Typography level="body-sm" className={styles.productPrice}>
           {product.price} €
         </Typography>
+        <Button onClick={handleFavorite} className={styles.favoriteButton}>
+          {isFavorite ? '❤️' : '♡'}
+        </Button>
       </Card>
       <Modal open={open} onClose={handleClose}>
         <div className={styles.modal}>

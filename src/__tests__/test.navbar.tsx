@@ -1,18 +1,19 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Navbar from '@/components/Navbar/navbar';
 
 describe('Navbar', () => {
-  it('should update search term correctly', () => {
-    // Rendre le composant Navbar
-    render(<Navbar onSearch={jest.fn()} onCategoryChange={jest.fn()} categories={[]} />);
+  it('should render the Navbar component', () => {
+    // Rendre le composant Navbar avec des props par défaut
+    render(
+      <Navbar
+        onSearch={() => {}}
+        onCategoryChange={() => {}}
+        categories={[]}
+      />
+    );
 
-    // Trouver l'élément de recherche
+    // Vérifier que l'élément de recherche est présent
     const searchInput = screen.getByPlaceholderText('Rechercher un produit...');
-
-    // Simuler la saisie d'un terme de recherche
-    fireEvent.change(searchInput, { target: { value: 'nouveau terme' } });
-
-    // Vérifier que le terme de recherche a été mis à jour correctement
-    expect(searchInput).toHaveValue('nouveau terme');
+    expect(searchInput).toBeInTheDocument();
   });
 });

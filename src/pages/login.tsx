@@ -1,39 +1,47 @@
-import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 import { Button, Card, Typography, Input } from '@mui/joy';
-import { useState, useEffect } from 'react';
 import styles from '../styles/Login.module.css';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (user.email && user.password) {
-      setEmail(user.email);
-      setPassword(user.password);
-    }
-  }, []);
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      const result = await signIn('credentials', {
-        redirect: false,
-        email,
-        password,
+      const response = await fetch('https://fakestoreapi.com/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          username: email,
+          password: password
+        })
       });
 
-      if (result?.error) {
-        console.error('Error during sign in:', result.error);
-      } else {
-        console.log('Sign in successful:', result);
+      const text = await response.text();
+      console.log('Response text:', text);
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error('Invalid JSON response');
+      }
+
+      if (response.ok) {
+        // Simuler la connexion réussie
+        login({ name: data.user.name, email: data.user.email });
         router.push('/');
+      } else {
+        alert('Erreur de connexion: ' + data.message);
       }
     } catch (error) {
       console.error('Unexpected error:', error);
+      alert('Erreur inattendue: ' + error);
     }
   };
 
@@ -62,14 +70,6 @@ export default function Login() {
             Se connecter
           </Button>
         </form>
-        <Button
-          variant="plain"
-          color="primary"
-          onClick={() => signIn('google')}
-          className={styles.googleButton}
-        >
-          Se connecter avec Google
-        </Button>
       </Card>
     </div>
   );

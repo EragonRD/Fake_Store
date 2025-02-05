@@ -17,8 +17,12 @@ export default function Register() {
       return;
     }
 
-    // Stocker les informations dans localStorage
-    localStorage.setItem('user', JSON.stringify({ email, password }));
+    // Simuler l'envoi des données à un serveur
+    const newUser = { email, password };
+    console.log('Simulating POST request to create user:', newUser);
+
+    // Afficher une alerte avec les données envoyées
+    alert(JSON.stringify(newUser, null, 2));
 
     // Rediriger vers la page de connexion
     router.push('/login');

@@ -1,11 +1,11 @@
-import { SessionProvider } from 'next-auth/react';
+import { AuthProvider } from '@/context/AuthContext';
 import type { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={pageProps.session}>
+    <AuthProvider>
       <Component {...pageProps} />
-    </SessionProvider>
+    </AuthProvider>
   );
 }
 

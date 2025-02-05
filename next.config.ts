@@ -36,10 +36,7 @@ const nextConfig: NextConfig = {
             key: 'X-Frame-Options',
             value: 'DENY', // Empêcher l'intégration dans un iframe
           },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff', // Désactiver la détection automatique du type MIME
-          },
+        
         ],
       },
     ];

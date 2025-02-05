@@ -12,7 +12,7 @@ export default NextAuth({
     async session({ session, token }) {
       // Ajouter des informations supplémentaires à la session
       session.user.name = token.name;
-      session.user.email = token.email;
+     // session.user.email = token.email;
       session.user.image = token.picture;
       return session;
     },
@@ -20,7 +20,7 @@ export default NextAuth({
       // Ajouter des informations supplémentaires au token JWT
       if (user) {
         token.name = user.name;
-        token.email = user.email;
+      //  token.email = user.email;
         token.picture = user.image;
       }
       return token;

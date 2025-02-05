@@ -1,38 +1,95 @@
+/* Carte de produit */
 .card {
-	width: 250px; /* Largeur fixe pour les cartes */
-	height: 250px; /* Hauteur fixe pour des cartes carrées */
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding: 1rem;
+	position: relative;
 	cursor: pointer;
-	transition: transform 0.2s ease;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 16px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s;
   }
   
   .card:hover {
 	transform: scale(1.05);
   }
   
+  /* Image du produit */
   .productImage {
-	width: 150px; /* Taille fixe pour les images */
-	height: 150px; /* Taille fixe pour les images */
-	object-fit: contain; /* Assure que l'image est bien contenue dans le cadre */
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
   }
   
-  .productTitle {
+  /* Placeholder pour l'image manquante */
+  .placeholder {
+	width: 100%;
+	height: 150px;
+	background-color: #f0f0f0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #888;
 	font-size: 1rem;
-	text-align: center;
-	margin-top: 0.5rem;
+	border-radius: 4px;
   }
   
-  .productPrice {
-	font-size: 1.25rem;
+  /* Titre du produit */
+  .productTitle {
+	margin-top: 8px;
+	font-size: 1.2rem;
 	font-weight: bold;
-	color: #0070f3; /* Couleur bleue pour le prix */
+	color: #333;
   }
+  
+  /* Prix du produit */
+  .productPrice {
+	margin-top: 4px;
+	font-size: 1rem;
+	color: #555;
+  }
+  
+  /* Bouton de favori */
+  .favoriteButton {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1.2rem;
+	color: #ff6b6b;
+	transition: color 0.2s;
+  }
+  
+  .favoriteButton:hover {
+	color: #ff0000;
+  }
+  
 
   
+  /* Image du modal */
+  .modalImage {
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+  }
+  
+  /* Titre du modal */
+  .modalTitle {
+	margin-top: 8px;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: #333;
+  }
+  
+  /* Description du modal */
+  .modalDescription {
+	margin-top: 8px;
+	font-size: 1rem;
+	color: #555;
+  }
+  
+  /* Prix du modal */
   .modalPrice{
 	font-size: 1.25rem;
 	font-weight: bold;
@@ -55,5 +112,3 @@
 	object-fit: contain; /* Assure que l'image est bien contenue dans le cadre */
 	margin-bottom: 1rem;
   }
-
-  

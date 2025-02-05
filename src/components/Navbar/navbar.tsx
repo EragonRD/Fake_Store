@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { Input, Button } from '@mui/joy';
 import styles from './Navbar.module.css';
 import { useState } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import FavoritesWindow from '../Favorites/FavoritesWindow';
 
 // Définition des props de la Navbar
 interface NavbarProps {
@@ -15,7 +15,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ onSearch, onCategoryChange, categories }) => {
   const router = useRouter(); // Hook pour la navigation
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { data: session } = useSession(); // Récupérer les informations de la session
+  const [showFavorites, setShowFavorites] = useState(false);
 
   // Gestion de la recherche
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,11 +36,22 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onCategoryChange, categories 
 
   // Redirection vers la page de profil
   const handleProfileClick = () => {
-    if (session) {
-      router.push('/profile');
-    } else {
-      router.push('/login'); // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
-    }
+    router.push('/profile');
+  };
+
+  // Redirection vers la page d'ajout de produit
+  const handleAddProductClick = () => {
+    router.push('/AddProduct');
+  };
+
+  // Ouvrir la fenêtre des favoris
+  const handleOpenFavorites = () => {
+    setShowFavorites(true);
+  };
+
+  // Fermer la fenêtre des favoris
+  const handleCloseFavorites = () => {
+    setShowFavorites(false);
   };
 
   return (
@@ -86,51 +97,33 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch, onCategoryChange, categories 
         >
           Contact
         </Button>
+        <Button
+          variant="plain"
+          color="primary"
+          onClick={handleAddProductClick}
+        >
+          Ajouter un Produit
+        </Button>
+        <Button
+          variant="plain"
+          color="primary"
+          onClick={handleOpenFavorites}
+        >
+          Favoris
+        </Button>
         <div className={styles.profileButtonContainer}>
-          {session ? (
-            <>
-              <img
-                src={session.user?.image || '/images/default-profile.png'}
-                alt={session.user?.name || 'Profile'}
-                className={styles.profileImage}
-                loading="lazy"
-              />
-              <span className={styles.profileName}>{session.user?.name}</span>
-              <Button
-                variant="plain"
-                color="primary"
-                onClick={handleProfileClick}
-              >
-                Profil
-              </Button>
-              <Button
-                variant="plain"
-                color="primary"
-                onClick={() => signOut()}
-              >
-                Déconnexion
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button
-                variant="plain"
-                color="primary"
-                onClick={() => router.push('/login')}
-              >
-                Connexion
-              </Button>
-              <Button
-                variant="plain"
-                color="primary"
-                onClick={() => router.push('/register')}
-              >
-                Inscription
-              </Button>
-            </>
-          )}
+          <Button
+            variant="plain"
+            color="primary"
+            onClick={handleProfileClick}
+          >
+            Profil
+          </Button>
         </div>
       </div>
+
+      {/* Fenêtre des favoris */}
+      {showFavorites && <FavoritesWindow onClose={handleCloseFavorites} />}
     </div>
   );
 };
