@@ -1,0 +1,35 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #f0f0f0;
+  }
+  
+  .card {
+	padding: 2rem;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	background-color: #fff;
+  }
+  
+  .title {
+	text-align: center;
+	margin-bottom: 1rem;
+  }
+  
+  .form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+  }
+  
+  .input {
+	width: 100%;
+  }
+  
+  .button {
+	width: 100%;
+	margin-top: 1rem;
+  }
+  

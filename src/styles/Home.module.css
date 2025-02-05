@@ -1,0 +1,13 @@
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 3 colonnes par ligne */
+  gap: 1rem; /* Espace entre les cartes */
+  padding: 2rem;
+}
+
+.noResultsMessage {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #ff0000;
+}

@@ -1,0 +1,59 @@
+.card {
+	width: 250px; /* Largeur fixe pour les cartes */
+	height: 250px; /* Hauteur fixe pour des cartes carrées */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem;
+	cursor: pointer;
+	transition: transform 0.2s ease;
+  }
+  
+  .card:hover {
+	transform: scale(1.05);
+  }
+  
+  .productImage {
+	width: 150px; /* Taille fixe pour les images */
+	height: 150px; /* Taille fixe pour les images */
+	object-fit: contain; /* Assure que l'image est bien contenue dans le cadre */
+  }
+  
+  .productTitle {
+	font-size: 1rem;
+	text-align: center;
+	margin-top: 0.5rem;
+  }
+  
+  .productPrice {
+	font-size: 1.25rem;
+	font-weight: bold;
+	color: #0070f3; /* Couleur bleue pour le prix */
+  }
+
+  
+  .modalPrice{
+	font-size: 1.25rem;
+	font-weight: bold;
+	color: #0070f3;
+
+  }
+  
+  .modal {
+	background-color: #ffffff;
+	padding: 2rem;
+	border-radius: 8px;
+	max-width: 500px;
+	margin: 0 auto;
+	text-align: center;
+  }
+  
+  .modalImage {
+	width: 200px; /* Taille fixe pour l'image dans la modal */
+	height: 200px; /* Taille fixe pour l'image dans la modal */
+	object-fit: contain; /* Assure que l'image est bien contenue dans le cadre */
+	margin-bottom: 1rem;
+  }
+
+  

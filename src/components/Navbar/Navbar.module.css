@@ -1,0 +1,36 @@
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+  }
+  
+  .logo {
+	cursor: pointer;
+  }
+  
+  .logoImage {
+	height: 40px;
+  }
+  
+  .searchContainer {
+	display: flex;
+	align-items: center;
+  }
+  
+  .searchInput {
+	margin-right: 1rem;
+  }
+  
+  .categoryDropdown {
+	padding: 0.5rem;
+	border-radius: 4px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+  }
+  
+  .buttonsContainer {
+	display: flex;
+	gap: 1rem;
+  }
+  
