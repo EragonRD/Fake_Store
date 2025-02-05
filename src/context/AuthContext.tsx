@@ -1,28 +1,38 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
-interface AuthContextType {
-  user: { name: string; email: string } | null;
-  login: ({ name, email }: { name: string; email: string }) => void;
-  logout: () => void;
+interface User {
+  name: string;
+  email: string;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+interface AuthContextType {
+  user: User | null;
+  login: (userData: User) => void;
+  logout: () => void;
+  register: (userData: User) => void;
+  updateProfile: (updatedUser: User) => void;
+}
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<User | null>(null);
+
+  // Charger l'utilisateur depuis le localStorage au démarrage
   useEffect(() => {
-    // Vérifier si les informations de l'utilisateur sont stockées dans localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
 
-  const login = ({ name, email }: { name: string; email: string }) => {
-    const user = { name, email };
-    setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
+  const login = (userData: User) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
@@ -30,15 +40,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('user');
   };
 
+  const register = (userData: User) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
+
+  const updateProfile = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, register, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const useAuth = () => {
+export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within an AuthProvider');
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
   return context;
-};
+}

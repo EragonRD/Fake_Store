@@ -1,40 +1,81 @@
-import { useState } from 'react';
-import { Button, Card, Typography, Input } from '@mui/joy';
-import styles from '../styles/Register.module.css';
+import { useState, FormEvent } from 'react';
+import { Button, Card, Typography, Input, Box } from '@mui/joy';
+import styles from '../styles/Login.module.css';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Register() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const router = useRouter();
+  const { register } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // Vérifier si les champs sont remplis
-    if (!email || !password) {
-      alert('Veuillez remplir tous les champs.');
+    // Validation simple des champs
+    if (!name || !email || !password) {
+      setError('Veuillez remplir tous les champs.');
       return;
     }
 
-    // Simuler l'envoi des données à un serveur
-    const newUser = { email, password };
-    console.log('Simulating POST request to create user:', newUser);
-
-    // Afficher une alerte avec les données envoyées
-    alert(JSON.stringify(newUser, null, 2));
-
-    // Rediriger vers la page de connexion
-    router.push('/login');
+    // Simuler l'inscription
+    try {
+      const newUser = { name, email };
+      register(newUser);
+      router.push('/'); // Rediriger vers la page d'accueil
+    } catch (error) {
+      setError('Une erreur est survenue lors de l\'inscription.');
+      console.error('Erreur d\'inscription:', error);
+    }
   };
 
   return (
-    <div className={styles.container}>
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundColor: 'background.level1',
+        position: 'relative',
+      }}
+    >
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '16px',
+          left: '16px',
+        }}
+      >
+        <Button
+          variant="plain"
+          color="primary"
+          onClick={() => router.push('/')}
+        >
+          Retour
+        </Button>
+      </Box>
       <Card className={styles.card}>
         <Typography level="h4" className={styles.title}>
           Inscription
         </Typography>
+        {error && (
+          <Typography color="danger" className={styles.error}>
+            {error}
+          </Typography>
+        )}
         <form onSubmit={handleSubmit} className={styles.form}>
+          <Input
+            placeholder="Nom"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={styles.input}
+          />
           <Input
             placeholder="Email"
             type="email"
@@ -54,6 +95,6 @@ export default function Register() {
           </Button>
         </form>
       </Card>
-    </div>
+    </Box>
   );
 }
