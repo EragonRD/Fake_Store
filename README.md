@@ -100,7 +100,9 @@
    npm install
 
 3. Tester le programme :
-npm run dev
+   ```bash
+   npm run dev
 
 4. Ouvrez votre navigateur et accédez à :
-http://localhost:3000
+
+    http://localhost:3000
