@@ -94,8 +94,13 @@
    ```bash
    git clone https://github.com/votre-utilisateur/votre-projet.git
 
-2. Tester le programme :
+2. Installez les dépendances :
+   ```bash
+   cd votre-projet
+   npm install
+
+3. Tester le programme :
 npm run dev
 
-3. Ouvrez votre navigateur et accédez à :
+4. Ouvrez votre navigateur et accédez à :
 http://localhost:3000
